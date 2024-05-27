@@ -1,20 +1,25 @@
 package com.example.pam_project
 
+import com.example.pam_project.R
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pam_project.databinding.ActivityListBinding
+import com.example.pam_project.databinding.EditpopupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+
 
 class ListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListBinding
+    private lateinit var bind2: EditpopupBinding
     private lateinit var database: DatabaseReference
     private lateinit var reportAdapter: RecycleViewAdapter
     private val reportList = mutableListOf<Report>()
@@ -75,7 +80,38 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun onEditClick(report: Report) {
-        // Implement edit functionality
+        val Ref = database.child(currentUserID).child(report.id?:"")
+        val dialogBuilder: android.app.AlertDialog = android.app.AlertDialog.Builder(this).create()
+        bind2 = EditpopupBinding.inflate(layoutInflater)
+
+            dialogBuilder.setView(bind2.root)
+            dialogBuilder.show()
+
+        bind2.cancelButton.setOnClickListener {
+                dialogBuilder.dismiss()
+        }
+        bind2.confirmButton.setOnClickListener {
+            Ref.child("title").setValue(bind2.titleUpdate.text.toString()).addOnSuccessListener {
+                Ref.child("description").setValue(bind2.textUpdate.text.toString()).addOnSuccessListener {
+                    Toast.makeText(this, "Report updated successfully", Toast.LENGTH_SHORT).show()
+                    reportAdapter.notifyDataSetChanged()
+                    dialogBuilder.dismiss()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failed to update report", Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed to update report", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+//        dialogView.findViewById(R.id.cancelButton).setOnClickListener(object : View.OnClickListener() {
+//                dialogBuilder.dismiss()
+//        }
+//        dialogView.findViewById(R.id.confirmButton).setOnClickListener(object : View.OnClickListener() {
+//                dialogBuilder.dismiss()
+//        }
+
+
     }
 
     private fun onDeleteClick(report: Report) {
