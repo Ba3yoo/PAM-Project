@@ -9,9 +9,10 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="?attr/colorSurface"
+        android:background="@color/blue"
+        app:titleTextColor="@color/black"
         app:titleCentered="true"
+        app:title="REPORT"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -56,11 +57,13 @@
         android:layout_marginTop="16dp"
         android:scaleType="centerCrop" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/selectImage"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="Pilih Gambar"
+        android:background="@drawable/rounded_button"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,15 +80,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/listButton"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/uploadImage"
+        android:background="@color/white"
         android:text="List"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uploadImage"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintVertical_bias="0.417"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="155dp" />
 
     <ImageView
         android:id="@+id/logout1"

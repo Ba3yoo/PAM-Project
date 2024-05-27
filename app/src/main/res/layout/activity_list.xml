@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:titleCentered="true"
-        app:titleTextColor="?attr/colorSurface" />
+        app:titleTextColor="@color/black" />
 
     <ImageView
         android:id="@+id/logout2"
