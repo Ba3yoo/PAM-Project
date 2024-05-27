@@ -1,4 +1,4 @@
-package com.example.projekakhir
+package com.example.pam_project
 
 class Report {
     var id: String? = null

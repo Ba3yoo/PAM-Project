@@ -1,4 +1,4 @@
-package com.example.projekakhir
+package com.example.pam_project
 
 import android.content.Intent
 import android.os.Bundle

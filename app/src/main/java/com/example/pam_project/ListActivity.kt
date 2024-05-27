@@ -1,10 +1,10 @@
-package com.example.projekakhir
+package com.example.pam_project
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projekakhir.databinding.ActivityListBinding
+import com.example.pam_project.databinding.ActivityListBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 

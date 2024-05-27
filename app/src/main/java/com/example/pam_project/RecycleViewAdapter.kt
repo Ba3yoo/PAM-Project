@@ -1,10 +1,9 @@
-package com.example.projekakhir
-
+package com.example.pam_project
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.projekakhir.databinding.RowBinding
+import com.example.pam_project.databinding.RowBinding
 
 class RecycleViewAdapter(
     private val reports: List<Report>,

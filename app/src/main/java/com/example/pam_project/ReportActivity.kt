@@ -1,4 +1,4 @@
-package com.example.projekakhir
+package com.example.pam_project
 
 import android.annotation.SuppressLint
 import android.content.Intent
