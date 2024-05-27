@@ -98,6 +98,7 @@ class ReportActivity : AppCompatActivity() {
                 }
             } ?: Toast.makeText(this, "Silakan pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun uploadImage(file: Uri, title: String, description: String) {

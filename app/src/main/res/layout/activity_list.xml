@@ -16,6 +16,14 @@
         app:titleCentered="true"
         app:titleTextColor="?attr/colorSurface" />
 
+    <ImageView
+        android:id="@+id/logout2"
+        android:layout_width="38dp"
+        android:layout_height="34dp"
+        app:srcCompat="@drawable/logoutpic"
+        tools:layout_editor_absoluteX="357dp"
+        tools:layout_editor_absoluteY="16dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_recyclerView"
         android:layout_width="381dp"

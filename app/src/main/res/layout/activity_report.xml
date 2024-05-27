@@ -86,4 +86,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/uploadImage"
         tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/logout1"
+        android:layout_width="38dp"
+        android:layout_height="34dp"
+        app:srcCompat="@drawable/logoutpic"
+        tools:layout_editor_absoluteX="357dp"
+        tools:layout_editor_absoluteY="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
