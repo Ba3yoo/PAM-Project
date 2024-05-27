@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ProjekAkhir"
+rootProject.name = "PAM-Project"
 include(":app")
  

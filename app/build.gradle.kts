@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.projekakhir"
+    namespace = "com.example.pam_project"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.projekakhir"
+        applicationId = "com.example.pam_project"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
