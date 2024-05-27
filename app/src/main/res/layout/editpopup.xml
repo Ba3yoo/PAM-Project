@@ -55,7 +55,7 @@
                 android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="84dp"
+                android:layout_marginStart="44dp"
                 android:layout_marginTop="108dp"
                 android:text="Cancel"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,10 +65,10 @@
                 android:id="@+id/confirmButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
                 android:layout_marginTop="108dp"
+                android:layout_marginEnd="48dp"
                 android:text="Confirm"
-                app:layout_constraintStart_toEndOf="@+id/cancelButton"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
