@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 
 class ListActivity : AppCompatActivity() {
@@ -33,19 +34,15 @@ class ListActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("reports")
 
-        // Get current user ID
         val currentUser = FirebaseAuth.getInstance().currentUser
         currentUserID = currentUser?.uid ?: ""
 
-        // Set up RecyclerView
         binding.rvRecyclerView.layoutManager = LinearLayoutManager(this)
         reportAdapter = RecycleViewAdapter(reportList, this::onEditClick, this::onDeleteClick)
         binding.rvRecyclerView.adapter = reportAdapter
 
-        // Fetch reports from Firebase
         fetchReports()
 
         binding.logout2.setOnClickListener {
@@ -115,13 +112,19 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun onDeleteClick(report: Report) {
-        val reportRef = database.child(currentUserID).child(report.id ?: "")
-        reportRef.removeValue().addOnSuccessListener {
-            Toast.makeText(this, "Report deleted successfully", Toast.LENGTH_SHORT).show()
-            reportList.remove(report)
-            reportAdapter.notifyDataSetChanged()
-        }.addOnFailureListener {
-            Toast.makeText(this, "Failed to delete report", Toast.LENGTH_SHORT).show()
+        val imageUrl = report.imageUrl ?: return
+
+        val storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl)
+
+        storageReference.delete().addOnSuccessListener{
+            val reportRef = database.child(currentUserID).child(report.id ?: "")
+            reportRef.removeValue().addOnSuccessListener {
+                Toast.makeText(this, "Report deleted successfully", Toast.LENGTH_SHORT).show()
+                reportList.remove(report)
+                reportAdapter.notifyDataSetChanged()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Failed to delete report", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

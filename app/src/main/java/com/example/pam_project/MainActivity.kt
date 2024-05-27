@@ -63,13 +63,11 @@ class MainActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Registration success, update UI with the registered user's information
                         val user = auth.currentUser
                         Toast.makeText(this, "Registration successful.", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, ReportActivity::class.java))
                         finish()
                     } else {
-                        // If registration fails, display a message to the user.
                         Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT).show()
                     }
                 }

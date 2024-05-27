@@ -91,7 +91,7 @@ class ReportActivity : AppCompatActivity() {
             val intent = Intent(this@ReportActivity,
                 MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK //makesure user cant go back
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -107,7 +107,6 @@ class ReportActivity : AppCompatActivity() {
             .addOnSuccessListener { taskSnapshot ->
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     saveReportToDatabase(userReportsRef, title, description, uri.toString())
-                    // Setelah berhasil mengunggah, kosongkan input dan reset ImageView
                     binding.titleEditText.setText("")
                     binding.descriptionEditText.setText("")
                     binding.imageView.setImageDrawable(null)
