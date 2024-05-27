@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <Button
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="384dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="80dp"
+        app:srcCompat="@drawable/cr" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordEditText"
         android:layout_marginTop="16dp"
-        android:text="Login" />
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_button"
+        android:text="Login"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginButton"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_button"
+        android:text="Register"/>
+
 
     <EditText
         android:id="@+id/emailEditText"
@@ -18,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:hint="Email"
+        android:layout_below="@id/imageView2"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -29,14 +53,5 @@
         android:layout_marginBottom="16dp"
         android:hint="Password"
         android:inputType="textPassword" />
-
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginButton"
-        android:layout_marginTop="0dp"
-        android:text="Register" />
-
 
 </RelativeLayout>
