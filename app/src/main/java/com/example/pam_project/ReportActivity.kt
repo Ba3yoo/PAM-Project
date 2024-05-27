@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.pam_project.databinding.ActivityReportBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
@@ -24,15 +25,9 @@ import java.util.*
 
 class ReportActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityReportBinding
     private lateinit var storageReference: StorageReference
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var progressIndicator: LinearProgressIndicator
-    private lateinit var imageView: ImageView
-    private lateinit var selectImage: MaterialButton
-    private lateinit var uploadImage: MaterialButton
-    private lateinit var titleEditText: EditText
-    private lateinit var descriptionEditText: EditText
-    private lateinit var listButton: Button
     private var imageUri: Uri? = null
     private lateinit var auth: FirebaseAuth
 
@@ -44,8 +39,8 @@ class ReportActivity : AppCompatActivity() {
             if (data != null) {
                 imageUri = data.data
                 if (imageUri != null) {
-                    uploadImage.isEnabled = true
-                    Glide.with(this).load(imageUri).into(imageView)
+                    binding.uploadImage.isEnabled = true
+                    Glide.with(this).load(imageUri).into(binding.imageView)
                 } else {
                     Toast.makeText(this, "Gagal mendapatkan URI gambar", Toast.LENGTH_SHORT).show()
                 }
@@ -58,38 +53,31 @@ class ReportActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_report)
+        binding = ActivityReportBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = Firebase.auth
         storageReference = FirebaseStorage.getInstance().reference
         databaseReference = FirebaseDatabase.getInstance().reference.child("reports")
 
-        progressIndicator = findViewById(R.id.progress)
-        imageView = findViewById(R.id.imageView)
-        selectImage = findViewById(R.id.selectImage)
-        uploadImage = findViewById(R.id.uploadImage)
-        titleEditText = findViewById(R.id.titleEditText)
-        descriptionEditText = findViewById(R.id.descriptionEditText)
-        listButton = findViewById(R.id.listButton)
+        binding.uploadImage.isEnabled = false
 
-        uploadImage.isEnabled = false
-
-        listButton.setOnClickListener {
+        binding.listButton.setOnClickListener {
             val intent = Intent(this@ReportActivity, ListActivity::class.java)
             startActivity(intent)
         }
 
-        selectImage.setOnClickListener {
+        binding.selectImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK).apply {
                 type = "image/*"
             }
             activityResultLauncher.launch(intent)
         }
 
-        uploadImage.setOnClickListener {
+        binding.uploadImage.setOnClickListener {
             imageUri?.let { uri ->
-                val title = titleEditText.text.toString().trim()
-                val description = descriptionEditText.text.toString().trim()
+                val title = binding.titleEditText.text.toString().trim()
+                val description = binding.descriptionEditText.text.toString().trim()
 
                 if (title.isNotEmpty() && description.isNotEmpty()) {
                     uploadImage(uri, title, description)
@@ -113,10 +101,10 @@ class ReportActivity : AppCompatActivity() {
                 ref.downloadUrl.addOnSuccessListener { uri ->
                     saveReportToDatabase(userReportsRef, title, description, uri.toString())
                     // Setelah berhasil mengunggah, kosongkan input dan reset ImageView
-                    titleEditText.setText("")
-                    descriptionEditText.setText("")
-                    imageView.setImageDrawable(null)
-                    uploadImage.isEnabled = false
+                    binding.titleEditText.setText("")
+                    binding.descriptionEditText.setText("")
+                    binding.imageView.setImageDrawable(null)
+                    binding.uploadImage.isEnabled = false
                 }
                 Toast.makeText(this, "Gambar Berhasil Diupload!!", Toast.LENGTH_SHORT).show()
             }
@@ -124,8 +112,8 @@ class ReportActivity : AppCompatActivity() {
                 Toast.makeText(this, "Gagal! ${e.message}", Toast.LENGTH_SHORT).show()
             }
             .addOnProgressListener { taskSnapshot ->
-                progressIndicator.max = taskSnapshot.totalByteCount.toInt()
-                progressIndicator.progress = taskSnapshot.bytesTransferred.toInt()
+                binding.progress.max = taskSnapshot.totalByteCount.toInt()
+                binding.progress.progress = taskSnapshot.bytesTransferred.toInt()
             }
     }
 
