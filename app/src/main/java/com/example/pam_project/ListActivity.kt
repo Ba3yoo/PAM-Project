@@ -1,12 +1,16 @@
 package com.example.pam_project
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pam_project.databinding.ActivityListBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class ListActivity : AppCompatActivity() {
 
@@ -15,11 +19,14 @@ class ListActivity : AppCompatActivity() {
     private lateinit var reportAdapter: RecycleViewAdapter
     private val reportList = mutableListOf<Report>()
     private lateinit var currentUserID: String
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        auth = Firebase.auth
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("reports")
@@ -35,6 +42,15 @@ class ListActivity : AppCompatActivity() {
 
         // Fetch reports from Firebase
         fetchReports()
+
+        binding.logout2.setOnClickListener {
+            auth!!.signOut()
+            val intent = Intent(this@ListActivity,
+                MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK //makesure user cant go back
+            startActivity(intent)
+        }
     }
 
     private fun fetchReports() {

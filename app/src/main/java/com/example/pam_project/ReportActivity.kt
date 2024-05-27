@@ -86,7 +86,14 @@ class ReportActivity : AppCompatActivity() {
                 }
             } ?: Toast.makeText(this, "Silakan pilih gambar terlebih dahulu", Toast.LENGTH_SHORT).show()
         }
-
+        binding.logout1.setOnClickListener {
+            auth!!.signOut()
+            val intent = Intent(this@ReportActivity,
+                MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK //makesure user cant go back
+            startActivity(intent)
+        }
     }
 
     private fun uploadImage(file: Uri, title: String, description: String) {
@@ -140,10 +147,4 @@ class ReportActivity : AppCompatActivity() {
         }
     }
 
-    private fun logOut() {
-        auth.signOut()
-        val intent = Intent(this@ReportActivity, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-    }
 }
