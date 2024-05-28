@@ -53,7 +53,7 @@ class ListActivity : AppCompatActivity() {
             val intent = Intent(this@ListActivity,
                 MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK 
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -133,8 +133,15 @@ class ListActivity : AppCompatActivity() {
     private fun onDownloadClick(report: Report) {
         val imageUrl = report.imageUrl ?: return
 
+        if (!URLUtil.isHttpUrl(imageUrl) && !URLUtil.isHttpsUrl(imageUrl)) {
+            Toast.makeText(this, "URL gambar tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val namaFile = "${report.id}.jpg"
+
+
         val request = DownloadManager.Request(Uri.parse(imageUrl))
-        val title = URLUtil.guessFileName(imageUrl, null, null)
 
         request.setTitle(title)
         request.setDescription("Sedang mendownload")
@@ -142,7 +149,7 @@ class ListActivity : AppCompatActivity() {
         val cookie = CookieManager.getInstance().getCookie(imageUrl)
         request.addRequestHeader("cookie", cookie)
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, namaFile)
 
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(request)
