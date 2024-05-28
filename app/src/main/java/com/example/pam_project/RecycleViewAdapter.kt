@@ -8,7 +8,8 @@ import com.example.pam_project.databinding.RowBinding
 class RecycleViewAdapter(
     private val reports: List<Report>,
     private val onEditClick: (Report) -> Unit,
-    private val onDeleteClick: (Report) -> Unit
+    private val onDeleteClick: (Report) -> Unit,
+    private val onDownloadClick: (Report)-> Unit
 ) : RecyclerView.Adapter<RecycleViewAdapter.ReportViewHolder>() {
 
     inner class ReportViewHolder(private val binding: RowBinding) :
@@ -28,6 +29,9 @@ class RecycleViewAdapter(
 
                 btnDelete.setOnClickListener {
                     onDeleteClick(report)
+                }
+                btnDownload.setOnClickListener {
+                    onDownloadClick(report)
                 }
             }
         }

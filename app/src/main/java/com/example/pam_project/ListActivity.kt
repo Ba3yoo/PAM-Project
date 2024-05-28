@@ -1,11 +1,14 @@
 package com.example.pam_project
 
-import com.example.pam_project.R
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.os.Environment
+import android.webkit.CookieManager
+import android.webkit.URLUtil
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pam_project.databinding.ActivityListBinding
@@ -40,7 +43,7 @@ class ListActivity : AppCompatActivity() {
         currentUserID = currentUser?.uid ?: ""
 
         binding.rvRecyclerView.layoutManager = LinearLayoutManager(this)
-        reportAdapter = RecycleViewAdapter(reportList, this::onEditClick, this::onDeleteClick)
+        reportAdapter = RecycleViewAdapter(reportList, this::onEditClick, this::onDeleteClick, this::onDownloadClick)
         binding.rvRecyclerView.adapter = reportAdapter
 
         fetchReports()
@@ -50,7 +53,7 @@ class ListActivity : AppCompatActivity() {
             val intent = Intent(this@ListActivity,
                 MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK //makesure user cant go back
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK 
             startActivity(intent)
         }
     }
@@ -71,7 +74,6 @@ class ListActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle error
             }
         })
     }
@@ -126,5 +128,25 @@ class ListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to delete report", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun onDownloadClick(report: Report) {
+        val imageUrl = report.imageUrl ?: return
+
+        val request = DownloadManager.Request(Uri.parse(imageUrl))
+        val title = URLUtil.guessFileName(imageUrl, null, null)
+
+        request.setTitle(title)
+        request.setDescription("Sedang mendownload")
+
+        val cookie = CookieManager.getInstance().getCookie(imageUrl)
+        request.addRequestHeader("cookie", cookie)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title)
+
+        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(request)
+
+        Toast.makeText(this, "Memulai Download", Toast.LENGTH_SHORT).show()
     }
 }
